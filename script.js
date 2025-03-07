@@ -21,17 +21,22 @@ document.querySelector('.calculate-button').addEventListener('click', function()
         result = num1 * num2;
         break;
       case '/':
-        if (num2 === 0) {
-          alert('Нельзя делить на ноль');
-          return;
-        }
-        result = num1 / num2;
-        break;
+      if (Math.abs(num2) < Number.EPSILON) {
+        alert('Нельзя делить на ноль');
+        return;
+      }
+      result = num1 / num2;
+      break;
       default:
         alert('Неверная операция');
         return;
     }
   
+    const previousResults = resultsContainer.querySelectorAll('p');
+    previousResults.forEach(result => {
+      result.classList.add('previous-result');
+    });
+
     const resultElement = document.createElement('p');
     resultElement.textContent = `${num1} ${operator} ${num2} = ${result}`;
     resultsContainer.appendChild(resultElement);
